@@ -38,25 +38,28 @@ def get_auth_header(token):
     }
     
 
-def get_playlist(token,playlist_id):
-    songs=[]
-    url= f'https://api.spotify.com/v1/playlists/{playlist_id}'
-    headers= get_auth_header(token)
-    result= get(url, headers=headers)
-    json_result = json.loads(result.content)['tracks']['items']
-    for item in json_result:
-        song = item['track']['name']
-        songs.append(song)
+def get_playlist(token,user_id):
+    playlists= []
+    url =f"https://api.spotify.com/v1/users/{user_id}/playlists"
+    headers =get_auth_header(token)
+    result = get(url, headers=headers)
+    # json_result = json.loads(result.content)['items']
+    for item in json.loads(result.content)['items']:
+        playlists.append({
+             item['name']
+           
+        })
 
-
-    return songs
-
- 
+    return playlists
 
 token = get_token()
 
+playlist = get_playlist(token,'creepy879')
 
-playlist = get_playlist(token,playlist_id)
-for song in playlist:
-    print(song)
+for id,name in enumerate(playlist):
+    print(name)
+
+
+
+
 
